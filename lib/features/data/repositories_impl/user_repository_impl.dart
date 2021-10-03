@@ -12,4 +12,11 @@ class UserRepositoryImpl extends UserRepository {
     final users = await remoteDataSource.getUsers();
     return users;
   }
+
+  @override
+  Future<User> getUser(int id) async {
+    return await remoteDataSource.getUser(id);
+  }
+
+
 }

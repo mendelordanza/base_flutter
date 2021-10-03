@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'core/constants/route_strings.dart';
-import 'features/presentation/user_page.dart';
+import 'features/presentation/users_page.dart';
 import 'injection_container.dart' as di;
 
 void main() async {

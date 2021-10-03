@@ -3,39 +3,43 @@ import 'package:get/get.dart';
 import 'package:widget_cheatsheet/core/constants/strings.dart';
 import 'package:widget_cheatsheet/features/presentation/user_controller.dart';
 
-import '../../injection_container.dart';
+class UserPage extends StatefulWidget {
+  @override
+  State<UserPage> createState() => _UserPageState();
+}
 
-class UsersPage extends StatelessWidget {
-  final userController = Get.put(getIt.get<UserController>());
+class _UserPageState extends State<UserPage> {
+  final userController = Get.find<UserController>();
+  final id = Get.arguments as int;
+
+  @override
+  void initState() {
+    userController.fetchUser(id);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    userController.user.value = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(appTitle),
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Obx(() {
-                return ListView.builder(
-                  itemCount: userController.users.length,
-                  itemBuilder: (context, index) {
-                    final item = userController.users.value[index];
-                    return ListTile(
-                      title: Text(item.name),
-                    );
-                  },
-                );
-              }),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                userController.fetchUsers();
-              },
-              child: Text("Load users"),
-            ),
-          ],
-        ));
+      appBar: AppBar(
+        title: Text(appTitle),
+      ),
+      body: Obx(() {
+        if (userController.user.value != null) {
+          return Center(
+            child: Text(userController.user.value!.name),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }),
+    );
   }
 }

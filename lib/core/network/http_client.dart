@@ -4,8 +4,8 @@ class BaseHttpClient {
   static const int TIME_OUT_DURATION = 20;
   String BASE_URL = "jsonplaceholder.typicode.com";
 
-  Future<http.Response> get(String api) async {
-    var uri = Uri.https(BASE_URL, api);
+  Future<http.Response> get({required String api, dynamic query}) async {
+    var uri = Uri.https(BASE_URL, api, query);
     try {
       var response = await http
           .get(uri)
